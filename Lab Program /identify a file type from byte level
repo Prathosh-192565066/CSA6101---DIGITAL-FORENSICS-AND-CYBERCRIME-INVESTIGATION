@@ -1,0 +1,20 @@
+file_data = b'\x89PNG\r\n\x1a\n'
+
+if file_data.startswith(b'\x89PNG\r\n\x1a\n'):
+    print("True file type: PNG")
+elif file_data.startswith(b'\xFF\xD8\xFF'):
+    print("True file type: JPEG")
+elif file_data.startswith(b'%PDF'):
+    print("True file type: PDF")
+elif file_data.startswith(b'GIF87a') or file_data.startswith(b'GIF89a'):
+    print("True file type: GIF")
+elif file_data.startswith(b'PK\x03\x04'):
+    print("True file type: ZIP")
+elif file_data.startswith(b'MZ'):
+    print("True file type: EXE")
+else:
+    print("Unknown file type")
+
+output :
+
+True file type: PNG
