@@ -1,0 +1,237 @@
+import json
+from dataclasses import asdict, dataclass
+from typing import List
+
+
+@dataclass
+class ForensicStage:
+    stage_number: int
+    name: str
+    objective: str
+    key_activities: List[str]
+    primary_deliverables: List[str]
+
+
+class DigitalForensicReportGenerator:
+    """Generates structured digital forensic lifecycle reports in multiple formats."""
+
+    def __init__(self, incident_name: str, lead_investigator: str):
+        self.incident_name = incident_name
+        self.lead_investigator = lead_investigator
+        self.lifecycle: List[ForensicStage] = self._build_lifecycle_data()
+
+    def _build_lifecycle_data(self) -> List[ForensicStage]:
+        return [
+            ForensicStage(
+                stage_number=1,
+                name="Identification",
+                objective="Detect the incident, define the scope, and locate potential evidence sources.",
+                key_activities=[
+                    "Incident detection and initial notification assessment",
+                    "Identify affected systems, networks, and storage media",
+                    "Determine legal considerations and authority to search/seize",
+                ],
+                primary_deliverables=[
+                    "Incident Response Activation Order",
+                    "Initial Evidence Location Map",
+                ],
+            ),
+            ForensicStage(
+                stage_number=2,
+                name="Preservation",
+                objective="Isolate and secure physical/digital evidence to prevent tampering or contamination.",
+                key_activities=[
+                    "Establish Chain of Custody documentation",
+                    "Isolate devices from network connections (e.g., Faraday bags, air-gapping)",
+                    "Create forensic images (bit-stream copies) of volatile and non-volatile data",
+                    "Calculate cryptographic hashes (MD5, SHA-256) of original media and images",
+                ],
+                primary_deliverables=[
+                    "Chain of Custody Logs",
+                    "Forensic Image Verification Hashes",
+                ],
+            ),
+            ForensicStage(
+                stage_number=3,
+                name="Analysis",
+                objective="Examine preserved evidence to extract artifacts and reconstruct events.",
+                key_activities=[
+                    "Analyze memory dumps, file systems, and system logs",
+                    "Recover deleted files, unallocated space, and hidden partitions",
+                    "Perform timeline construction and correlation of events",
+                    "Identify malware, unauthorized access points, or data exfiltration paths",
+                ],
+                primary_deliverables=[
+                    "Artifact Extraction Log",
+                    "Reconstructed Attack Timeline",
+                ],
+            ),
+            ForensicStage(
+                stage_number=4,
+                name="Documentation",
+                objective="Maintain comprehensive, objective records of all investigative findings and methodology.",
+                key_activities=[
+                    "Document tools, versions, and scripts used during analysis",
+                    "Compile technical findings with verified hash matches",
+                    "Align technical observations with regulatory and legal compliance guidelines",
+                ],
+                primary_deliverables=[
+                    "Detailed Technical Analysis Logbook",
+                    "Evidence Correlation Matrix",
+                ],
+            ),
+            ForensicStage(
+                stage_number=5,
+                name="Reporting",
+                objective="Communicate findings effectively to technical, executive, and legal stakeholders.",
+                key_activities=[
+                    "Draft an Executive Summary tailored for high-level management",
+                    "Compile technical appendices detailing methodologies and artifacts",
+                    "Formulate recommendations for remediation and prevention",
+                ],
+                primary_deliverables=[
+                    "Final Digital Forensics Investigation Report (DFIR)",
+                    "Executive Briefing Slide Deck",
+                ],
+            ),
+        ]
+
+    def export_text_report(self) -> str:
+        """Generates a structured plain-text/console report."""
+        divider = "=" * 70
+        sub_divider = "-" * 70
+
+        lines = [
+            divider,
+            f"DIGITAL FORENSICS INVESTIGATION LIFECYCLE REPORT".center(70),
+            divider,
+            f"Incident Name    : {self.incident_name}",
+            f"Lead Investigator: {self.lead_investigator}",
+            divider,
+            "",
+        ]
+
+        for stage in self.lifecycle:
+            lines.append(f"STAGE {stage.stage_number}: {stage.name.upper()}")
+            lines.append(sub_divider)
+            lines.append(f"Objective:\n  {stage.objective}\n")
+
+            lines.append("Key Activities:")
+            for act in stage.key_activities:
+                lines.append(f"  • {act}")
+
+            lines.append("\nPrimary Deliverables:")
+            for deliv in stage.primary_deliverables:
+                lines.append(f"  [✓] {deliv}")
+
+            lines.append("\n" + divider + "\n")
+
+        return "\n".join(lines)
+
+    def export_json(self) -> str:
+        """Generates a structured JSON string representation."""
+        report_data = {
+            "metadata": {
+                "incident_name": self.incident_name,
+                "lead_investigator": self.lead_investigator,
+                "total_stages": len(self.lifecycle),
+            },
+            "stages": [asdict(stage) for stage in self.lifecycle],
+        }
+        return json.dumps(report_data, indent=2)
+
+
+if __name__ == "__main__":
+    generator = DigitalForensicReportGenerator(
+        incident_name="Operation Ransomware Breach 2026",
+        lead_investigator="Det. Alex Mercer, CCE",
+    )
+
+output:
+======================================================================
+           DIGITAL FORENSICS INVESTIGATION LIFECYCLE REPORT           
+======================================================================
+Incident Name    : Operation Ransomware Breach 2026
+Lead Investigator: Det. Alex Mercer, CCE
+======================================================================
+
+STAGE 1: IDENTIFICATION
+----------------------------------------------------------------------
+Objective:
+  Detect the incident, define the scope, and locate potential evidence sources.
+
+Key Activities:
+  • Incident detection and initial notification assessment
+  • Identify affected systems, networks, and storage media
+  • Determine legal considerations and authority to search/seize
+
+Primary Deliverables:
+  [✓] Incident Response Activation Order
+  [✓] Initial Evidence Location Map
+
+======================================================================
+
+STAGE 2: PRESERVATION
+----------------------------------------------------------------------
+Objective:
+  Isolate and secure physical/digital evidence to prevent tampering or contamination.
+
+Key Activities:
+  • Establish Chain of Custody documentation
+  • Isolate devices from network connections (e.g., Faraday bags, air-gapping)
+  • Create forensic images (bit-stream copies) of volatile and non-volatile data
+  • Calculate cryptographic hashes (MD5, SHA-256) of original media and images
+
+Primary Deliverables:
+  [✓] Chain of Custody Logs
+  [✓] Forensic Image Verification Hashes
+
+======================================================================
+
+STAGE 3: ANALYSIS
+----------------------------------------------------------------------
+Objective:
+  Examine preserved evidence to extract artifacts and reconstruct events.
+
+Key Activities:
+  • Analyze memory dumps, file systems, and system logs
+  • Recover deleted files, unallocated space, and hidden partitions
+  • Perform timeline construction and correlation of events
+  • Identify malware, unauthorized access points, or data exfiltration paths
+
+Primary Deliverables:
+  [✓] Artifact Extraction Log
+  [✓] Reconstructed Attack Timeline
+
+======================================================================
+
+STAGE 4: DOCUMENTATION
+----------------------------------------------------------------------
+Objective:
+  Maintain comprehensive, objective records of all investigative findings and methodology.
+
+Key Activities:
+  • Document tools, versions, and scripts used during analysis
+  • Compile technical findings with verified hash matches
+  • Align technical observations with regulatory and legal compliance guidelines
+
+Primary Deliverables:
+  [✓] Detailed Technical Analysis Logbook
+  [✓] Evidence Correlation Matrix
+
+======================================================================
+
+STAGE 5: REPORTING
+----------------------------------------------------------------------
+Objective:
+  Communicate findings effectively to technical, executive, and legal stakeholders.
+
+Key Activities:
+  • Draft an Executive Summary tailored for high-level management
+  • Compile technical appendices detailing methodologies and artifacts
+  • Formulate recommendations for remediation and prevention
+
+Primary Deliverables:
+  [✓] Final Digital Forensics Investigation 
+
+    rint(generator.export_text_report())
