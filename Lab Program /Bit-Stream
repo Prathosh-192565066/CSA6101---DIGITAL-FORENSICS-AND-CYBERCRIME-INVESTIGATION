@@ -1,0 +1,24 @@
+import hashlib
+original_data = b"This is the original forensic evidence file."
+original_hash = hashlib.sha256(original_data).hexdigest()
+forensic_copy = bytes(original_data)
+copy_hash = hashlib.sha256(forensic_copy).hexdigest()
+print("Original File SHA-256:")
+print(original_hash)
+
+print("\nForensic Copy SHA-256:")
+print(copy_hash)
+
+if original_hash == copy_hash:
+    print("\nIntegrity Verified: Forensic copy is identical.")
+else:
+    print("\nIntegrity Check Failed: Files are different.")
+
+output:
+Original File SHA-256:
+0e0a349f8ed6eaa24c338584d20ce6cb9d7db7be0f1480f4ee221216ab2a17e4
+
+Forensic Copy SHA-256:
+0e0a349f8ed6eaa24c338584d20ce6cb9d7db7be0f1480f4ee221216ab2a17e4
+
+Integrity Verified: Forensic copy is identical.
