@@ -1,0 +1,23 @@
+data = b"XXXX%PDF-1.4 deleted_pdf XXXX\xFF\xD8\xFF deleted_jpg XXXXPK\x03\x04 deleted_zip"
+
+signatures = {
+    b"%PDF": "PDF",
+    b"\xFF\xD8\xFF": "JPEG",
+    b"PK\x03\x04": "ZIP",
+    b"\x89PNG\r\n\x1a\n": "PNG"
+}
+
+for signature, file_type in signatures.items():
+    position = data.find(signature)
+
+    if position != -1:
+        print("Recovered:", file_type)
+        print("Location:", position)
+
+output:
+Recovered: PDF
+Location: 4
+Recovered: JPEG
+Location: 34
+Recovered: ZIP
+Location: 50
