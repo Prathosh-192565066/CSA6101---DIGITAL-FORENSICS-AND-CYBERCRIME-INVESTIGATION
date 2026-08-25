@@ -1,0 +1,58 @@
+# Simulated network traffic log
+traffic_log = [
+    "192.168.1.10 192.168.1.100 80",
+    "192.168.1.20 192.168.1.100 21",
+    "192.168.1.20 192.168.1.100 22",
+    "192.168.1.20 192.168.1.100 23",
+    "192.168.1.20 192.168.1.100 25",
+    "192.168.1.20 192.168.1.100 53",
+    "192.168.1.20 192.168.1.100 80",
+    "192.168.1.30 192.168.1.100 443"
+]
+
+# Number of different ports considered suspicious
+THRESHOLD = 5
+
+port_activity = {}
+
+# Analyze traffic log
+for log in traffic_log:
+    source_ip, destination_ip, port = log.split()
+    port = int(port)
+
+    if source_ip not in port_activity:
+        port_activity[source_ip] = set()
+
+    port_activity[source_ip].add(port)
+
+print("===== PORT SCAN ANALYSIS =====")
+
+scan_detected = False
+
+for ip, ports in port_activity.items():
+    print(f"\nSource IP: {ip}")
+    print("Ports Accessed:", sorted(ports))
+    print("Total Different Ports:", len(ports))
+
+    if len(ports) >= THRESHOLD:
+        print("ALERT: Possible port-scanning behavior detected!")
+        scan_detected = True
+
+if not scan_detected:
+
+output:
+===== PORT SCAN ANALYSIS =====
+
+Source IP: 192.168.1.10
+Ports Accessed: [80]
+Total Different Ports: 1
+
+Source IP: 192.168.1.20
+Ports Accessed: [21, 22, 23, 25, 53, 80]
+Total Different Ports: 6
+ALERT: Possible port-scanning behavior detected!
+
+Source IP: 192.168.1.30
+Ports Accessed: [443]
+Total Different Ports: 1
+    print("\nNo port-scanning behavior detected.")
