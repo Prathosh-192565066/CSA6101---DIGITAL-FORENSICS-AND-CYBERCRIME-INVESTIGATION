@@ -1,0 +1,20 @@
+import hashlib
+
+files = ["evidence1.txt", "evidence2.txt", "evidence3.txt"]
+
+hashes = {}
+
+for file_name in files:
+    with open(file_name, "rb") as file:
+        file_hash = hashlib.sha256(file.read()).hexdigest()
+
+    if file_hash in hashes:
+        print("Duplicate Found:")
+        print(hashes[file_hash], "and", file_name)
+    else:
+        hashes[file_hash] = file_name
+        
+        
+output:
+        Duplicate Found:
+evidence1.txt and evidence3.txt
