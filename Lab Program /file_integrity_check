@@ -1,0 +1,33 @@
+import hashlib
+
+# Function to calculate SHA-256 hash
+def calculate_hash(file_name):
+    with open(file_name, "rb") as file:
+        data = file.read()
+        return hashlib.sha256(data).hexdigest()
+
+file_name = "evidence.txt"
+
+# Stored baseline hash
+baseline_hash = "2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824"
+
+# Calculate current hash
+current_hash = calculate_hash(file_name)
+
+print("===== FILE INTEGRITY CHECK =====")
+print("File Name     :", file_name)
+print("Baseline Hash :", baseline_hash)
+print("Current Hash  :", current_hash)
+
+if baseline_hash == current_hash:
+    print("\nRESULT: File has not been modified.")
+else:
+    print("\nALERT: Unauthorized file modification detected!")
+
+    output:
+    ===== FILE INTEGRITY CHECK =====
+File Name     : evidence.txt
+Baseline Hash : 2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824
+Current Hash  : 7d793037a0760186574b0282f2f435e7
+
+ALERT: Unauthorized file modification detected!
