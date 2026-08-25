@@ -1,0 +1,25 @@
+from PIL import Image
+from PIL.ExifTags import TAGS
+
+image_path = "sample.jpg"
+
+image = Image.open(image_path)
+exif_data = image.getexif()
+
+print("EXIF Metadata")
+print("-------------")
+
+if exif_data:
+    for tag_id, value in exif_data.items():
+        tag = TAGS.get(tag_id, tag_id)
+        print(f"{tag}: {value}")
+else:
+    print("No EXIF metadata found.")
+
+output:
+EXIF Metadata
+-------------
+Make: Canon
+Model: EOS 80D
+DateTime: 2026:08:25 10:30:00
+Orientation: 1
