@@ -1,0 +1,21 @@
+import os
+from datetime import datetime
+
+file_name = "evidence.txt"
+
+info = os.stat(file_name)
+
+print("===== FILE METADATA =====")
+print("File Name         :", file_name)
+print("File Size         :", info.st_size, "bytes")
+print("Creation Time     :", datetime.fromtimestamp(info.st_ctime))
+print("Modification Time :", datetime.fromtimestamp(info.st_mtime))
+print("Access Time       :", datetime.fromtimestamp(info.st_atime))
+
+output:
+===== FILE METADATA =====
+File Name         : evidence.txt
+File Size         : 1024 bytes
+Creation Time     : 2026-08-25 10:00:00
+Modification Time : 2026-08-25 10:10:00
+Access Time       : 2026-08-25 10:15:00
