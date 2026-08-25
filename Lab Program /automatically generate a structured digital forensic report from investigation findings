@@ -1,0 +1,38 @@
+case_id = input("Enter Case ID: ")
+investigator = input("Enter Investigator Name: ")
+evidence = input("Enter Evidence Details: ")
+findings = input("Enter Investigation Findings: ")
+conclusion = input("Enter Conclusion: ")
+
+print("\n===== DIGITAL FORENSIC REPORT =====")
+print("Case ID      :", case_id)
+print("Investigator :", investigator)
+
+print("\nEvidence:")
+print(evidence)
+
+print("\nFindings:")
+print(findings)
+
+print("\nConclusion:")
+print(conclusion)
+
+output:
+Enter Case ID: DF-101
+Enter Investigator Name: Alex
+Enter Evidence Details: Laptop hard disk image
+Enter Investigation Findings: Suspicious executable and login records found
+Enter Conclusion: Evidence indicates unauthorized access
+
+===== DIGITAL FORENSIC REPORT =====
+Case ID      : DF-101
+Investigator : Alex
+
+Evidence:
+Laptop hard disk image
+
+Findings:
+Suspicious executable and login records found
+
+Conclusion:
+Evidence indicates unauthorized access
