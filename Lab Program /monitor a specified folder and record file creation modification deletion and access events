@@ -1,0 +1,52 @@
+import os
+import time
+
+folder = "monitored_folder"
+
+# Create folder if it does not exist
+if not os.path.exists(folder):
+    os.mkdir(folder)
+
+previous_files = {}
+
+print("===== FOLDER MONITORING =====")
+print("Monitoring folder:", folder)
+print("Press Ctrl+C to stop.\n")
+
+try:
+    while True:
+        current_files = {}
+
+        for file_name in os.listdir(folder):
+            path = os.path.join(folder, file_name)
+
+            if os.path.isfile(path):
+                current_files[file_name] = os.path.getmtime(path)
+
+                if file_name not in previous_files:
+                    print("CREATED :", file_name)
+
+                elif previous_files[file_name] != current_files[file_name]:
+                    print("MODIFIED:", file_name)
+
+        for file_name in previous_files:
+            if file_name not in current_files:
+                print("DELETED :", file_name)
+
+        previous_files = current_files
+        time.sleep(2)
+
+except KeyboardInterrupt:
+    print("\nFolder monitoring stopped.")
+
+output:
+===== FOLDER MONITORING =====
+Monitoring folder: monitored_folder
+Press Ctrl+C to stop.
+
+CREATED : evidence.txt
+CREATED : report.txt
+MODIFIED: evidence.txt
+DELETED : report.txt
+
+Folder monitoring stopped.
