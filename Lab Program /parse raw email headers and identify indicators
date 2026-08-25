@@ -1,0 +1,63 @@
+# Raw email header
+email_header = """
+From: support@bank.com
+Return-Path: hacker@gmail.com
+Reply-To: attacker@gmail.com
+Received: from unknown-server.com
+Subject: Verify Your Account
+"""
+
+from_address = ""
+return_path = ""
+reply_to = ""
+received = ""
+
+# Parse email header
+for line in email_header.splitlines():
+    if line.startswith("From:"):
+        from_address = line.split(":", 1)[1].strip()
+    elif line.startswith("Return-Path:"):
+        return_path = line.split(":", 1)[1].strip()
+    elif line.startswith("Reply-To:"):
+        reply_to = line.split(":", 1)[1].strip()
+    elif line.startswith("Received:"):
+        received = line.split(":", 1)[1].strip()
+
+print("===== EMAIL HEADER ANALYSIS =====")
+print("From:", from_address)
+print("Return-Path:", return_path)
+print("Reply-To:", reply_to)
+print("Received:", received)
+
+spoofed = False
+
+# Check for suspicious differences
+if return_path and return_path != from_address:
+    print("\nWarning: From and Return-Path do not match.")
+    spoofed = True
+
+if reply_to and reply_to != from_address:
+    print("Warning: From and Reply-To do not match.")
+    spoofed = True
+
+if "unknown" in received.lower():
+    print("Warning: Email received from an unknown server.")
+    spoofed = True
+
+if spoofed:
+    print("\nRESULT: Possible spoofed sender detected.")
+else:
+    print("\nRESULT: No obvious spoofing indicators detected.")
+
+ouout:
+===== EMAIL HEADER ANALYSIS =====
+From: support@bank.com
+Return-Path: hacker@gmail.com
+Reply-To: attacker@gmail.com
+Received: from unknown-server.com
+
+Warning: From and Return-Path do not match.
+Warning: From and Reply-To do not match.
+Warning: Email received from an unknown server.
+
+RESULT: Possible spoofed sender detected.
