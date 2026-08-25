@@ -1,0 +1,23 @@
+import hashlib
+
+file_name = "evidence.txt"
+
+with open(file_name, "rb") as file:
+    data = file.read()
+
+md5_hash = hashlib.md5(data).hexdigest()
+sha1_hash = hashlib.sha1(data).hexdigest()
+sha256_hash = hashlib.sha256(data).hexdigest()
+
+print("===== HASH VALUE ANALYSIS =====")
+print("File Name :", file_name)
+print("MD5       :", md5_hash)
+print("SHA-1     :", sha1_hash)
+print("SHA-256   :", sha256_hash)
+
+output:
+===== HASH VALUE ANALYSIS =====
+File Name : evidence.txt
+MD5       : 5d41402abc4b2a76b9719d911017c592
+SHA-1     : aaf4c61ddcc5e8a2dabede0f3b482cd9aea9434d
+SHA-256   : 2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824
