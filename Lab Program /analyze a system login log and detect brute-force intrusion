@@ -1,0 +1,48 @@
+from collections import defaultdict
+
+# Simulated system login log
+login_log = [
+    "192.168.1.10 SUCCESS admin",
+    "192.168.1.20 FAILED root",
+    "192.168.1.20 FAILED root",
+    "192.168.1.20 FAILED admin",
+    "192.168.1.30 SUCCESS user1",
+    "192.168.1.20 FAILED admin",
+    "192.168.1.20 FAILED root",
+    "192.168.1.40 FAILED user2",
+    "192.168.1.40 FAILED user2"
+]
+
+# Maximum failed attempts allowed
+THRESHOLD = 5
+
+failed_attempts = defaultdict(int)
+
+for log in login_log:
+    parts = log.split()
+
+    ip = parts[0]
+    status = parts[1]
+
+    if status == "FAILED":
+        failed_attempts[ip] += 1
+
+print("===== BRUTE FORCE LOGIN ANALYSIS =====")
+
+attack_found = False
+
+for ip, count in failed_attempts.items():
+    print(f"IP Address: {ip} | Failed Attempts: {count}")
+
+    if count >= THRESHOLD:
+        print(f"ALERT: Possible brute-force attack detected from {ip}")
+        attack_found = True
+
+if not attack_found:
+    print("\nNo brute-force attack detected.")
+
+output:
+===== BRUTE FORCE LOGIN ANALYSIS =====
+IP Address: 192.168.1.20 | Failed Attempts: 5
+ALERT: Possible brute-force attack detected from 192.168.1.20
+IP Address: 192.168.1.40 | Failed Attempts: 2
